@@ -1,12 +1,17 @@
 const express = require('express');
 const multer = require('multer');
-const cors = require('cors') 
+const cors = require('cors')
 const sharp = require('sharp');
 const app = express();
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true }))
-
-app.use(cors())
+const corsOptions = {
+    origin: "http://43.204.194.160:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, 
+    optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 const port = 3001;
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -18,9 +23,9 @@ app.post('/convert-tiff', upload.single('file'), (req, res) => {
         .resize({
             width: 2000,
             height: 2000,
-            fit: sharp.fit.cover, // This ensures the image covers the dimensions and may crop it
-            withoutEnlargement: true // This ensures the image is not enlarged if it's smaller than the target size
-        }) 
+            fit: sharp.fit.cover, 
+            withoutEnlargement: true 
+        })
         .toBuffer()
         .then(data => {
             res.type('jpeg').send(data);
