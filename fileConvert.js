@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true }))
 const corsOptions = {
-    origin: 'http://43.204.194.160:3000',
+    origin: 'http://15.207.98.156',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, 
     optionsSuccessStatus: 200  
